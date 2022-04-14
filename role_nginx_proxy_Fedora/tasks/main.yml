@@ -1,0 +1,107 @@
+
+  - name: set mydistribution
+    ansible.builtin.set_fact:
+      mydistribution: "{{ 'rhel' if (ansible_distribution == 'Fedora Linux') else (ansible_distribution | lower) }}"
+
+  - name: Add signing key
+    ansible.builtin.rpm_key:
+      key: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+      state: present
+
+  - name: Add repository into repo.d list
+    ansible.builtin.yum_repository:
+      name: docker
+      description: docker repository
+      baseurl: "https://download.docker.com/linux/{{ mydistribution }}/$releasever/$basearch/stable"
+      enabled: true
+      gpgcheck: true
+      gpgkey: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+
+  - name: Install Docker
+    ansible.builtin.yum:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state: latest
+      update_cache: true
+    register : y
+
+  - name: Checking Install Status
+    debug:
+      var: y.failed    
+
+  - name: Start Docker
+    ansible.builtin.service:
+      name: "docker"
+      enabled: true
+      state: started                         #здесь закончил
+
+  - name: Starting Docker Daemon
+    service:
+      name: docker
+      state: started
+      enabled: yes
+    when: y.failed == false  
+
+  - name: Install
+    command: "pip install docker-py"
+
+  - name: Pull a Docker Image
+    docker_image:
+      name: andreysagurov/nginx
+      tag: latest
+      source: pull
+    register: z 
+
+  - name: Checking Pull Status
+    debug:
+      var: z
+
+  - name: Creating a Persistent Volume Dir
+    file:
+      path: /var/www/  # {{ domain }}
+      state: directory
+      mode: '0775'
+      owner: root     # "{{ ansible_user }}"
+      group: root     #"{{ ansible_user }}"
+
+  - name: delete nginx deafault nginx site
+    file:
+      path: /etc/nginx/sites-enabled/default
+      state: absent
+    notify: restart nginx    
+
+  - name: copy nginx site.conf
+    template:
+      src: site.conf.j2
+      dest: /etc/nginx/sites-enabled/ #{{ domain }}
+      owner: root
+      group: root
+      mode: '0664'
+    notify: restart nginx
+
+  - name: sync website
+    synchronize:
+      src: index.html
+      dest: /var/www/archive    
+      archive: no
+      checksum: yes
+      recursive: yes  
+
+  - name: Launching NGINX Container
+    when: z.failed == false
+    docker_container:
+      name: nginx
+      image: andreysagurov/nginx
+      state: started
+      exposed_ports: 
+        - "80"
+      ports: 
+        - "8888:80"
+#      volumes:
+#        - /root/pv:/usr/local/nginx/htdocs
+
+
+               
+          

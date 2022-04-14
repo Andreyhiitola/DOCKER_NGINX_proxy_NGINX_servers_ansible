@@ -1,0 +1,12 @@
+---
+  - hosts: All_nginx
+    tasks:
+    - name: Sync website
+      synchronize:
+        src: index.html
+	dest: /var/www/     #{{ domain_server }}
+	archive: no
+	checksum: yes
+	recursive: yes
+      become: yes    # no -  если нет проверки root
+

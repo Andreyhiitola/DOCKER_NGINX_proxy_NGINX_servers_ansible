@@ -1,0 +1,11 @@
+server  {
+#  listen 80;
+  listen [::]:80;
+  server_name 192.18.1.96;
+  root /var/www/ 192.168.1.96;
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+ 
+  
