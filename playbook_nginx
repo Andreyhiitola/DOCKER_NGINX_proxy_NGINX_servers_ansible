@@ -1,17 +1,17 @@
 ---
 - name : NGINX
 
-#  hosts: nginx_balansir    
-  hosts: nginx_web_server
-
   become: yes
 
-#  roles:
-#    - role_nginx_proxy_Fedora
+  hosts: nginx_balansir    
+#  hosts: nginx_web_server
+
+  roles:
+    - role_nginx_proxy_Fedora
 
 #  hosts: nginx_web_server
 #  become: yes
-  roles:
-    - role_nginx_Fedora
+#  roles:
+#    - role_nginx_Fedora
 
 

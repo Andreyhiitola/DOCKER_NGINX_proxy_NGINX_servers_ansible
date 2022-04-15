@@ -60,34 +60,14 @@
 
   - name: Creating a Persistent Volume Dir
     file:
-      path: /var/www/  # {{ domain }}
+      path: /root/nginx              #{{ conf.d }}
       state: directory
-      mode: '0775'
-      owner: root     # "{{ ansible_user }}"
-      group: root     #"{{ ansible_user }}"
 
-  - name: delete nginx deafault nginx site
-    file:
-      path: /etc/nginx/sites-enabled/default
-      state: absent
-    notify: restart nginx    
-
-  - name: copy nginx site.conf
-    template:
-      src: site.conf.j2
-      dest: /etc/nginx/sites-enabled/ #{{ domain }}
-      owner: root
-      group: root
-      mode: '0664'
-    notify: restart nginx
-
-  - name: sync website
-    synchronize:
-      src: index.html
-      dest: /var/www/archive    
-      archive: no
-      checksum: yes
-      recursive: yes  
+  - name: Coping etc config
+    copy:
+      src:  /root/nginx.conf
+      dest: /root/nginx  
+      
 
   - name: Launching NGINX Container
     when: z.failed == false
@@ -99,9 +79,6 @@
         - "80"
       ports: 
         - "8888:80"
-#      volumes:
-#        - /root/pv:/usr/local/nginx/htdocs
-
-
-               
-          
+      volumes:
+        - /root/nginx/nginx.conf:/etc/nginx/nginx.conf
+    

@@ -3,8 +3,8 @@
     tasks:
     - name: Sync website
       synchronize:
-        src: index.html
-	dest: /var/www/     #{{ domain_server }}
+        src: /root/index.html
+	dest: /var/www      #{{ domain_server }}
 	archive: no
 	checksum: yes
 	recursive: yes

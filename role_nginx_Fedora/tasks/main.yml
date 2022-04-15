@@ -60,44 +60,14 @@
 
   - name: Creating a Persistent Volume Dir
     file:
-      path: /var/www/                      #{{ domain }}
+      path: /var/www                      #{{ domain }}
       state: directory
-      mode: '0775'
-      owner: root                          # "{{ ansible_user }}"
-      group: root                           #"{{ ansible_user }}"
-
-  - name: delete nginx deafault nginx site
-    file:
-      path: /etc/nginx/sites-enabled/default
-      state: absent
-    notify: restart nginx    
-
-  - name: copy nginx site.conf
-    template:
-      src: site.conf.j2
-      dest: /etc/nginx/sites-enabled/   #192.168.1.96           # {{ localhost }}       #{{ domain }}
-      owner: root
-      group: root
-      mode: '0664'
-    notify: restart nginx
-
-
-
-
+         
+  - name: Copying the HTML code in the Directory
+    copy:
+      src: /root/index.html
+      dest: /var/www  
      
-      #  - name: Copying the HTML code in the Directory
-      #    copy: 
-      #      src: "root/.ansible/Mysites/index.html"
-      #      dest: "/root/pv"
-        #
-      
-        #  - name: Create www directory
-        #    file: 
-        #       path: /var/www/{{ domain }}
-        #       state: directory
-        #       mode: '0775'
-        #       owner: "{{ ansible_user }}"
-        #       group: "{{ ansible_user }}"  
 
   - name: Launching NGINX Container
     when: z.failed == false
@@ -109,8 +79,9 @@
         - "80"
       ports: 
         - "8888:80"
-          #      volumes:
-          #        - /root/pv:/usr/local/nginx/htdocs
+      volumes:
+        - /var/www/index.html:/usr/share/nginx/html/index.html
+
 
 
                
