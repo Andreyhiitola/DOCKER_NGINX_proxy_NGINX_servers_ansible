@@ -1,3 +1,9 @@
+---
+  - name: update Fedora
+    yum:
+       name: yum
+       state: latest
+       exclude: kernel*
 
   - name: set mydistribution
     ansible.builtin.set_fact:
@@ -35,7 +41,6 @@
     ansible.builtin.service:
       name: "docker"
       enabled: true
-      state: started                         #здесь закончил
 
   - name: Starting Docker Daemon
     service:
@@ -44,9 +49,17 @@
       enabled: yes
     when: y.failed == false  
 
-  - name: Install
-    command: "pip install docker-py"
+  - name: install python dependencies
+    become: true
+    yum:
+      update_cache: yes
+      state: latest
+      name: python3-pip
 
+  - name: install 'Docker SDK for Python'
+    pip:
+      name: docker
+  
   - name: Pull a Docker Image
     docker_image:
       name: andreysagurov/nginx
@@ -60,12 +73,12 @@
 
   - name: Creating a Persistent Volume Dir
     file:
-      path: /var/www                      #{{ domain }}
+      path: /var/www                    
       state: directory
          
   - name: Copying the HTML code in the Directory
     copy:
-      src: /root/index.html
+      src: index.html.j2.yml                             
       dest: /var/www  
      
 
@@ -78,11 +91,59 @@
       exposed_ports: 
         - "80"
       ports: 
-        - "8888:80"
+        - "9999:80"
       volumes:
-        - /var/www/index.html:/usr/share/nginx/html/index.html
+        - /var/www/index.html.j2.yml:/usr/share/nginx/html/index.html
 
 
+  - name: Check for iptables-servises
+    yum:
+      name: iptables-services
+      state: latest
+  
+  - name: Enable iptables-services
+    service:
+      name: iptables
+      enabled: yes  
+      state: started
+  
+  - name: Allow related and established connections
+    ansible.builtin.iptables:
+      chain: INPUT
+      ctstate: NEW,ESTABLISHED,RELATED
+      jump: ACCEPT
+      action: insert
+      rule_num: "1"
 
-               
-          
+  - name: Insert a rule on line 2
+    ansible.builtin.iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: "80"
+      jump: ACCEPT
+      action: insert
+      rule_num: "2"
+
+  - name: Match on IP ranges
+    ansible.builtin.iptables:
+      chain: INPUT             
+      source: "{{ proxy }}"     
+      dst_range: "{{ webserv1 }}-{{ webserv2 }}"
+      jump: ACCEPT
+      action: insert
+      rule_num: "3"
+
+
+  - name: Block specific IP
+    ansible.builtin.iptables:
+      chain: INPUT
+      source: 255.255.255.255
+      jump: DROP
+      action: insert
+      rule_num: "4"
+
+  - name: save new iptables 
+    command:
+      /usr/libexec/iptables/iptables.init save
+
+        

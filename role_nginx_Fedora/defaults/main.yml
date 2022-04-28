@@ -1,2 +1,8 @@
 ---
-# defaults file for roles_Fedora
+# defaults file for roles_Fedora  
+# прописываем здесь сервера для настройки iptables
+proxy: 192.168.1.129
+
+webserv1:  192.168.1.54
+  
+webserv2:  192.168.1.108

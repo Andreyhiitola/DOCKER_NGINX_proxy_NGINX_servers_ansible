@@ -2,16 +2,14 @@
 #Iventory files of hosts
 
 [ALL_nginx]
-balansir ansible_host=192.168.1.69
-webserver_1 ansible_host=192.168.1.148
-webserver_2 ansible_host=192.168.1.151
-
+balansir_proxy ansible_host=192.168.1.129
+webserver_1 ansible_host=192.168.1.54
+webserver_2 ansible_host=192.168.1.108
 
 [nginx_balansir]
-balansir ansible_host=192.168.1.69   
+balansir_proxy ansible_host=192.168.1.129   
 
 
 [nginx_web_server]
- webserver_1 ansible_host=192.168.1.148
- webserver_2 ansible_host=192.168.1.151
-
+ webserver_1 ansible_host=192.168.1.54
+ webserver_2 ansible_host=192.168.1.108

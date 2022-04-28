@@ -1,3 +1,19 @@
+---
+  
+  - name: Set authorized key took from file
+    authorized_key:
+      user: root
+      state: present
+      key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+
+
+
+  - name: update Fedora
+    yum: 
+      name: '*' 
+      state: latest
+      exclude: kernel*   
+
 
   - name: set mydistribution
     ansible.builtin.set_fact:
@@ -35,7 +51,7 @@
     ansible.builtin.service:
       name: "docker"
       enabled: true
-      state: started                         #здесь закончил
+      state: started                 
 
   - name: Starting Docker Daemon
     service:
@@ -44,8 +60,18 @@
       enabled: yes
     when: y.failed == false  
 
-  - name: Install
-    command: "pip install docker-py"
+  - name: install python dependacies
+    become: true
+    yum:
+      update_cache: yes
+      state: latest
+      name: python3-pip
+
+  - name: install 'Docker SDK for Python'
+    pip:
+      name: docker    
+
+
 
   - name: Pull a Docker Image
     docker_image:
@@ -60,13 +86,13 @@
 
   - name: Creating a Persistent Volume Dir
     file:
-      path: /root/nginx              #{{ conf.d }}
+      path: /root/nginx      
       state: directory
 
   - name: Coping etc config
     copy:
-      src:  /root/nginx.conf
-      dest: /root/nginx  
+      src: nginx.conf.j2.yml
+      dest: /root/nginx/  
       
 
   - name: Launching NGINX Container
@@ -80,5 +106,5 @@
       ports: 
         - "8888:80"
       volumes:
-        - /root/nginx/nginx.conf:/etc/nginx/nginx.conf
+        - /root/nginx/nginx.conf.j2.yml:/etc/nginx/nginx.conf
     
