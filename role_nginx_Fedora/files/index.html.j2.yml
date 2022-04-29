@@ -3,15 +3,21 @@
 <html>
 <body style="background-color:powderblue;">
 
-<h1 style="color:red; text-align: center;">!!! Welcome to webserver [ lockalhost ] !!!</h1>
+<h1 style="color:red; text-align: center;">!!! Welcome to webserver NGINX  w!!!</h1>
 
-<h1 style="color:purple;text-align: center;">Task: Run Apache WebServer in Docker Container</h1>
+<h1 style="color:red; text-align: center;">!!!  {{ webserver }}  w!!!</h1>
+
+<h1 style="color:purple;text-align: center;">Task: Run NGINX WebServer in Docker Container</h1>
 
 <ul>
 <h3 style="color:orange;text-align: center; font-size:30px">!! Redhat !!</h3>
 <h3 style="color:green;text-align: center; font-size:30px">!! Docker !!</h3>
 <h3 style="color:brown;text-align: center; font-size:30px">!! Ansible !!</h3> 
 </ul>
+Ansible OS Famaly: {{ ansible_distribution }}  {{ansible_distribution_major_version }}<br>
+IP Adress of this Server is:  {{ ansible_default_ipv4 }}<br>
+
+
 
 </body>
 </html>

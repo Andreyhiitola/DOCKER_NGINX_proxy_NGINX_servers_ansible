@@ -1,5 +1,9 @@
 ---
-  
+  - name: Setting host facts using key=value pairs, this format can only create strings or booleans
+    set_fact: one_fact="something"   
+
+
+
   - name: Set authorized key took from file
     authorized_key:
       user: root
@@ -71,8 +75,6 @@
     pip:
       name: docker    
 
-
-
   - name: Pull a Docker Image
     docker_image:
       name: andreysagurov/nginx
@@ -107,4 +109,3 @@
         - "8888:80"
       volumes:
         - /root/nginx/nginx.conf.j2.yml:/etc/nginx/nginx.conf
-    

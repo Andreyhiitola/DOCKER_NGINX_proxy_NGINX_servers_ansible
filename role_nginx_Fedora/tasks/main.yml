@@ -80,7 +80,9 @@
     copy:
       src: index.html.j2.yml                             
       dest: /var/www  
-     
+        #    notify:
+        #    - Reboot a slow mashine
+
 
   - name: Launching NGINX Container
     when: z.failed == false
@@ -94,7 +96,11 @@
         - "9999:80"
       volumes:
         - /var/www/index.html.j2.yml:/usr/share/nginx/html/index.html
-
+  
+          # handlers:
+          #    - name: Reboot a slow machine that might have lots of updates to apply
+          #      reboot:
+          #        reboot_timeout: 2
 
   - name: Check for iptables-servises
     yum:
@@ -107,6 +113,11 @@
       enabled: yes  
       state: started
   
+  - name: Iptables flush filter
+    ansible.builtin.iptables:
+      chain: INPUT    
+      flush: yes 
+
   - name: Allow related and established connections
     ansible.builtin.iptables:
       chain: INPUT
