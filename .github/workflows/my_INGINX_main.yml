@@ -1,0 +1,26 @@
+# This is a basic workflow to help you get started with Actions
+
+name: My_githubeActions
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:   
+       - main
+  # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  my_testing:
+  
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Run a one-line script
+      run: echo Hello, world from testing!
+        
+  my_deploy:
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Run a one-line script
+      run: echo Hello, world from Deploy! 
