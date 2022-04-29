@@ -3,7 +3,7 @@
 name: My_githubeActions
 env:  
   APPLICATION_NAME       : "Mynginx"
-  DEPLOY_PACKAGE_NAME    :  "nginx-deploy-ver-${{ githab.sha }}"
+  PACKAGE_NAME    :  "nginx-deploy-ver-${{ githab.sha }}"
 
    
 
@@ -36,5 +36,5 @@ jobs:
       run: echo Hello, world from Deploy in Deploy! 
 
     - name: Printing Deplpoyment package
-      run : echo "Deploy package name ${{ env.DEPLOY_PACKAGE_NAME }}"
+      run : echo "Deploy package name ${{ env.PACKAGE_NAME }}"
 
