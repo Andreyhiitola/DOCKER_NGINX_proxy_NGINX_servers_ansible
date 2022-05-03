@@ -1,0 +1,148 @@
+---
+  - name: update Fedora
+    yum:
+       name: yum
+       state: latest
+       exclude: kernel*
+
+  - name: set mydistribution
+    ansible.builtin.set_fact:
+      mydistribution: "{{ 'rhel' if (ansible_distribution == 'Fedora Linux') else (ansible_distribution | lower) }}"
+
+  - name: Add signing key
+    ansible.builtin.rpm_key:
+      key: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+      state: present
+
+  - name: Add repository into repo.d list
+    ansible.builtin.yum_repository:
+      name: docker
+      description: docker repository
+      baseurl: "https://download.docker.com/linux/{{ mydistribution }}/$releasever/$basearch/stable"
+      enabled: true
+      gpgcheck: true
+      gpgkey: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+
+  - name: Install Docker
+    ansible.builtin.yum:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state: latest
+      update_cache: true
+    register : y
+
+  - name: Checking Install Status
+    debug:
+      var: y.failed    
+
+  - name: Start Docker
+    ansible.builtin.service:
+      name: "docker"
+      enabled: true
+
+  - name: Starting Docker Daemon
+    service:
+      name: docker
+      state: started
+      enabled: yes
+    when: y.failed == false  
+
+  - name: install python dependencies
+    become: true
+    yum:
+      update_cache: yes
+      state: latest
+      name: python3-pip
+
+  - name: install 'Docker SDK for Python'
+    pip:
+      name: docker
+  
+  - name: Pull a Docker Image
+    docker_image:
+      name: andreysagurov/nginx
+      tag: latest
+      source: pull
+    register: z 
+
+  - name: Checking Pull Status
+    debug:
+      var: z
+
+  - name: Creating a Persistent Volume Dir
+    file:
+      path: /var/www                    
+      state: directory
+
+  - name: Copying the HTML code in the Directory
+    template:
+      src: index.j2.html                             
+      dest: "{{ nginx_file }}/index.html"  
+    notify: Restarted Launching NGINX Container
+  
+  - name: Launching NGINX Container
+    when: z.failed == false
+    docker_container:
+      name: nginx
+      image: andreysagurov/nginx
+      state: started
+      exposed_ports: 
+        - "80"
+      ports: 
+        - "9999:80"
+      volumes:
+        - "{{ nginx_file }}/index.html:/usr/share/nginx/html/index.html"
+
+  - name: Check for iptables-servises
+    yum:
+      name: iptables-services
+      state: latest
+  
+  - name: Enable iptables-services
+    service:
+      name: iptables
+      enabled: yes  
+      state: started
+  
+  - name: Allow related and established connections
+    ansible.builtin.iptables:
+      chain: INPUT
+      ctstate: NEW,ESTABLISHED,RELATED
+      jump: ACCEPT
+      action: insert
+      rule_num: "1"
+
+  - name: Insert a rule on line 2
+    ansible.builtin.iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_port: "80"
+      jump: ACCEPT
+      action: insert
+      rule_num: "2"
+
+  - name: Match on IP ranges 
+    ansible.builtin.iptables:
+      chain: INPUT             
+      source: "{{ balansir_proxy }}"     
+      dst_range: "{{ webserver_1 }}-{{ webserver_2 }}"       
+      jump: ACCEPT
+      action: insert
+      rule_num: "3"
+ 
+
+  - name: Block specific IP
+    ansible.builtin.iptables:
+      chain: INPUT
+      source: 0.0.0.0/0
+      jump: DROP
+      action: insert
+      rule_num: "4"
+
+  - name: save new iptables 
+    command:
+      /usr/libexec/iptables/iptables.init save
+
+        

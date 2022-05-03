@@ -3,15 +3,19 @@
 
 [ALL_nginx]
 
-balansir_proxy ansible_host=192.168.1.129  webserver=SERVER_PROXY
-webserver_1 ansible_host=192.168.1.54      webserver=WEB-SERVER-1
-webserver_2 ansible_host=192.168.1.108     webserver=WEB-SERVER-2 
+balansir_proxy  ansible_host=192.168.1.129    webserver=SERVER_PROXY
+webserver_1     ansible_host=192.168.1.58     webserver=WEB-SERVER-1
+webserver_2     ansible_host=192.168.1.38     webserver=WEB-SERVER-2 
 
 [nginx_balansir]
-balansir_proxy ansible_host=192.168.1.129  webserver=SERVER_PROXY
-
+balansir_proxy  ansible_host=192.168.1.129    webserver=SERVER_PROXY     
 
 [nginx_web_server]
 
-webserver_1 ansible_host=192.168.1.54      webserver=WEB-SERVER-1
-webserver_2 ansible_host=192.168.1.108     webserver=WEB-SERVER-2 
+webserver_1     ansible_host=192.168.1.58    webserver=WEB-SERVER-1    
+webserver_2     ansible_host=192.168.1.38    webserver=WEB-SERVER-2    
+
+[ALL_nginx:vars]
+balansir_proxy=192.168.1.129
+webserver_1=192.168.1.58
+webserver_2=192.168.1.38
