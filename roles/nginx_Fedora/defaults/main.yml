@@ -1,9 +1,3 @@
 ---
 # defaults file for roles_Fedora  
-# прописываем здесь сервера для настройки iptables
-proxy:      192.168.1.129
-webserv1:   192.168.1.58
-
-webserv2:   192.168.1.38
-
 nginx_file: /var/www  
