@@ -39,7 +39,7 @@ jobs:
     needs: [ my_testing ]
     env:
       VAR1: "This is Job level Variable1"
-      VAR2: "This is Job level Variable2"
+      VAR2: "This is Job levels Variable2"
       
     steps: 
     - name: Run a one-line script
