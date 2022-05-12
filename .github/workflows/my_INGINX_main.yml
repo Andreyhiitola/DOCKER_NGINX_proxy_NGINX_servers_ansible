@@ -22,7 +22,7 @@ jobs:
     - name: Execute few comands
       run: |
         echo "Hello message1"
-        echo "Hello message2"
+        echo "Hello messages2"
         echo "Applicationname: ${{ env.APPLICATION_NAME }}"
 
     - name: list folder 
