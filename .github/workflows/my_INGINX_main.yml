@@ -13,7 +13,9 @@ on:
 jobs:
   my_testing:
   
-    runs-on: self-hoste
+    runs-on: 
+      - self-hosted
+      - label-1
 
    
     steps:
