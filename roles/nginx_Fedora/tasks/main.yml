@@ -75,15 +75,13 @@
     file:
       path: /var/www                    
       state: directory
-         
+
   - name: Copying the HTML code in the Directory
-    copy:
-      src: index.html.j2.yml                             
-      dest: /var/www  
-        #    notify:
-        #    - Reboot a slow mashine
-
-
+    template:
+      src: index.j2.html                             
+      dest: "{{ nginx_file }}/index.html"  
+    notify: Restarted Launching NGINX Container
+  
   - name: Launching NGINX Container
     when: z.failed == false
     docker_container:
@@ -95,12 +93,7 @@
       ports: 
         - "9999:80"
       volumes:
-        - /var/www/index.html.j2.yml:/usr/share/nginx/html/index.html
-  
-          # handlers:
-          #    - name: Reboot a slow machine that might have lots of updates to apply
-          #      reboot:
-          #        reboot_timeout: 2
+        - "{{ nginx_file }}/index.html:/usr/share/nginx/html/index.html"
 
   - name: Check for iptables-servises
     yum:
@@ -113,11 +106,6 @@
       enabled: yes  
       state: started
   
-  - name: Iptables flush filter
-    ansible.builtin.iptables:
-      chain: INPUT    
-      flush: yes 
-
   - name: Allow related and established connections
     ansible.builtin.iptables:
       chain: INPUT
@@ -130,25 +118,25 @@
     ansible.builtin.iptables:
       chain: INPUT
       protocol: tcp
-      destination_port: "80"
+      destination_port: "{{ dist_port}}"
       jump: ACCEPT
       action: insert
       rule_num: "2"
 
-  - name: Match on IP ranges
+  - name: Match on IP ranges 
     ansible.builtin.iptables:
       chain: INPUT             
-      source: "{{ proxy }}"     
-      dst_range: "{{ webserv1 }}-{{ webserv2 }}"
+      source: "{{ balansir_proxy }}"     
+      dst_range: "{{ webserver_1 }}-{{ webserver_2 }}"       
       jump: ACCEPT
       action: insert
       rule_num: "3"
-
+ 
 
   - name: Block specific IP
     ansible.builtin.iptables:
       chain: INPUT
-      source: 255.255.255.255
+      source: 0.0.0.0/0
       jump: DROP
       action: insert
       rule_num: "4"

@@ -92,8 +92,8 @@
       state: directory
 
   - name: Coping etc config
-    copy:
-      src: nginx.conf.j2.yml
+    template:                          #copy:
+      src: nginx.j2.conf
       dest: /root/nginx/  
       
 
@@ -108,4 +108,4 @@
       ports: 
         - "8888:80"
       volumes:
-        - /root/nginx/nginx.conf.j2.yml:/etc/nginx/nginx.conf
+        - /root/nginx/nginx.j2.conf:/etc/nginx/nginx.conf
