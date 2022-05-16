@@ -11,9 +11,8 @@ on:
     branches:   
        - main
 jobs:
-  my_testing: ubuntu-latest
-  
-    #runs-on: 
+  my_testing:   
+     runs-on: ubuntu-latest 
      # - self-hosted
       #- label-1
 
