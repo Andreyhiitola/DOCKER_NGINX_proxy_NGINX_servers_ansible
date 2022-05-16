@@ -11,11 +11,11 @@ on:
     branches:   
        - main
 jobs:
-  my_testing:
+  my_testing: ubuntu-latest
   
-    runs-on: 
-      - self-hosted
-      - label-1
+    #runs-on: 
+     # - self-hosted
+      #- label-1
 
    
     steps:
