@@ -36,7 +36,7 @@ jobs:
       run : ls -la
    
     - name: create dir
-      run: cd │/home/andy/actions-runner/_work/DOCKER_NGINX_proxy_NGINX_servers_ansible/DOCKER_NGINX_proxy_NGINX_servers_ansible
+      run: cd /home/andy/actions-runner/_work/DOCKER_NGINX_proxy_NGINX_servers_ansible/DOCKER_NGINX_proxy_NGINX_servers_ansible
    
     - name: Run ansible-nginx sript
       run: ansible_script.sh
