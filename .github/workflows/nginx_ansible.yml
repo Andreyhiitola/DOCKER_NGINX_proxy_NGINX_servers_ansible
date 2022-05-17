@@ -60,7 +60,7 @@ jobs:
       env:
         LOCAL_VAR: "This is Supper local Environment varible"
     
-    - name: Printing Deplpoyment package
+    - name: Printing Deplpoyment packages
       run : echo "Deploy package name ${{ env.PACKAGE_NAME }}"
 
     - name: Lets test some packages if the are here 1
