@@ -12,7 +12,7 @@ on:
        - main
 jobs:
   my_testing:   
-    runs-on:  self-hosted 
+    runs-on:  ubuntu-latest # self-hosted 
     # ubuntu-latest 
      # - self-hosted
       #- label-1
