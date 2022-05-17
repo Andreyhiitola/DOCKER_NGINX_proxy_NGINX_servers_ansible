@@ -34,9 +34,9 @@ jobs:
 
     - name: list folder 
       run : ls -la
+   
     - name: create dir
-      run: |
-        mkdir NGINX && cd NGINX
+      run: mkdir NGINX && cd NGINX
         
 
   my_deploy:
