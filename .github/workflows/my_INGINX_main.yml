@@ -12,7 +12,8 @@ on:
        - main
 jobs:
   my_testing:   
-    runs-on:  self-hosted  #                       ubuntu-latest 
+    runs-on:  self-hosted 
+    # ubuntu-latest 
      # - self-hosted
       #- label-1
 
