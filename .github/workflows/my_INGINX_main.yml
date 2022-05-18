@@ -12,7 +12,7 @@ on:
        - main
 jobs:
   my_testing:   
-    runs-on:  ubuntu-latest # self-hosted 
+    runs-on:  self-hosted 
     # ubuntu-latest 
      # - self-hosted
       #- label-1
@@ -41,7 +41,7 @@ jobs:
         
 
   my_deploy:
-    runs-on:  ubuntu-latest
+    runs-on:  self-hosted
     needs: [ my_testing ]
     env:
       VAR1: "This is Job level Variable1"
@@ -59,11 +59,11 @@ jobs:
       env:
         LOCAL_VAR: "This is Supper local Environment varible"
     
-    - name: Printing Deplpoyment package
-      run : echo "Deploy package name ${{ env.PACKAGE_NAME }}"
+   # - name: Printing Deplpoyment package
+   #   run : echo "Deploy package name ${{ env.PACKAGE_NAME }}"
 
-    - name: Lets test some packages if the are here 1
-      run: aws --version
+   # - name: Lets test some packages if the are here 1
+   #   run: aws --version
     
-    - name: Lets tests some packages if the are here 2
-      run: zip
+   # - name: Lets tests some packages if the are here 2
+   #   run: zip
