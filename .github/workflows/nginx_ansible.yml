@@ -2,8 +2,8 @@
 
 name: My_githubeActions
 env:  
-  APPLICATION_NAME       : "Mynginx"
-  PACKAGE_NAME    :  "nginx-deploy-ver-${{ github.sha }}"
+ # APPLICATION_NAME       : "Mynginx"
+ # PACKAGE_NAME    :  "nginx-deploy-ver-${{ github.sha }}"
 
 on:
   
