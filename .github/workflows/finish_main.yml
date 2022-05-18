@@ -33,6 +33,7 @@ jobs:
     steps: 
     - name: Run a one-line script
       run: echo Hello, worlds from   Deploy in Deploy! 
+      
     - name: Run ansible-nginx script
       run: sudo ./ansible_script.sh
 
