@@ -23,8 +23,8 @@ jobs:
     - name: list folder 
       run : ls -la
     
-    #- name: Run ansible-nginx script
-    #  run: sudo ./ansible_script.sh
+    - name: Run ansible-nginx script
+      run: sudo ./ansible_script.sh
 
   my_deploy:
     runs-on:  ubuntu-latest
@@ -34,7 +34,3 @@ jobs:
     - name: Run a one-line script
       run: echo Hello, worlds from   Deploy in Deploy! 
       
-    - name: Run ansible-nginx script
-      run: sudo ./ansible_script.sh
-
-  
