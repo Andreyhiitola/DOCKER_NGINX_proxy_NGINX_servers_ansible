@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 
 name: My_githubeActions
-env:  
+#env:  
  # APPLICATION_NAME       : "Mynginx"
  # PACKAGE_NAME    :  "nginx-deploy-ver-${{ github.sha }}"
 
