@@ -19,3 +19,5 @@ webserver_2     ansible_host=10.1.30.81        webserver=WEB-SERVER-2
 balansir_proxy=10.1.30.116
 webserver_1=10.1.30.108
 webserver_2=10.1.30.81
+username=my_user
+password=my_pass
