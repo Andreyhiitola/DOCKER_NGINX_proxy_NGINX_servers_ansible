@@ -22,6 +22,6 @@ webserver_1=10.1.30.108
 webserver_2=10.1.30.81
 #username=my_user
 #password=my_pass
-ansible_user: andy
-ansible_ssh_private_key_file: ~/.ssh/id_rsa
-ansible_sudo_pass: 12345
+#ansible_user: andy
+#ansible_ssh_private_key_file: ~/.ssh/id_rsa
+#ansible_sudo_pass: 12345
