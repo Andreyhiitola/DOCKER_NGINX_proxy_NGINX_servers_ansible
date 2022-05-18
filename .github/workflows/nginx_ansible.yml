@@ -43,7 +43,7 @@ jobs:
     runs-on:  ubuntu-latest
     needs: [ my_testing ]
     env:
-      VAR1: "This is Job level Variable1"
+      VAR1: "This is Job level Variable_1"
       VAR2: "This is Job levels Variable2"
       
     steps: 
