@@ -15,6 +15,7 @@ balansir_proxy  ansible_host=10.1.30.116      webserver=SERVER_PROXY
 webserver_1     ansible_host=10.1.30.108      webserver=WEB-SERVER-1    
 webserver_2     ansible_host=10.1.30.81        webserver=WEB-SERVER-2    
 
+
 [ALL_nginx:vars]
 balansir_proxy=10.1.30.116
 webserver_1=10.1.30.108
