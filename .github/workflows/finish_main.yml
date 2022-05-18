@@ -24,7 +24,7 @@ jobs:
       run : ls -la
     
     - name: Run ansible-nginx script
-      run: sudo ./ansible_script.sh
+      run: sudo -E ./ansible_script.sh
 
   my_deploy:
     runs-on:  ubuntu-latest
