@@ -7,7 +7,7 @@ on:
     branches:   
        - main
 jobs:
-  my_testing:   
+  my_CI:   
     runs-on: self-hosted 
       
     steps:
@@ -25,7 +25,7 @@ jobs:
     
     - name: Run ansible-nginx script
       run: ansible-playbook playbook_nginx
-     # run: sudo  ./ansible_script.sh
+     # run: sudo sudo  ./ansible_script.sh
 
   my_deploy:
     runs-on:  ubuntu-latest
