@@ -18,13 +18,14 @@ jobs:
       run : ls -la
 
     - name : Git clone my repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: list folder 
       run : ls -la
     
     - name: Run ansible-nginx script
-      run:  playbook_nginx
+      run: ansible-playbook  playbook_nginx
+      #run:  playbook_nginx
       #run: ./playbookscript.sh
 
   my_deploy:
