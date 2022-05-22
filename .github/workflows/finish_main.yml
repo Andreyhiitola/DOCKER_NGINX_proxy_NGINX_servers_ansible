@@ -24,10 +24,8 @@ jobs:
       run : ls -la
     
     - name: Run ansible-nginx script
-      run: sudo ansible-playbook  playbook_nginx
-      #run:  playbook_nginx
-     #run: sudo ./playbookscript.sh
-
+      run:  ansible-playbook  playbook_nginx
+  
   my_deploy:
     runs-on:  ubuntu-latest
     needs: [ my_testing ]
