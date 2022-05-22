@@ -20,7 +20,6 @@ webserver_2     ansible_host=10.1.30.66       webserver=WEB-SERVER-2
 balansir_proxy=10.1.30.101
 webserver_1=10.1.30.102
 webserver_2=10.1.30.66
-#username=my_user
 #password=my_pass
 #ansible_user: andy
 #ansible_ssh_private_key_file: ~/.ssh/id_rsa
