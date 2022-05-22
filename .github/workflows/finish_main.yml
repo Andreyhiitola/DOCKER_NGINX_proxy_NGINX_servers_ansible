@@ -7,7 +7,7 @@ on:
     branches:   
        - main
 jobs:
-  my_testing:   
+  my_CI-CD:         # my_testing:   
     runs-on: self-hosted 
       
     steps:
