@@ -1,3 +1,6 @@
-# Terraform_aws
+proxy nginx
+nginx
+docker
 
-Тестовый проект 05.08.22
+
+
