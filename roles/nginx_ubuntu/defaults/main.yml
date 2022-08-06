@@ -1,4 +1,0 @@
----
-# defaults file for roles_Fedora  
-nginx_file: /var/www  
-dist_port: '80'
