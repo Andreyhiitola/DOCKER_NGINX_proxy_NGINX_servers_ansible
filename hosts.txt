@@ -1,7 +1,7 @@
 
 #Iventory files of hosts
 
-   
+[nginx_web_server]
 
 [nginx_web_server]
 
