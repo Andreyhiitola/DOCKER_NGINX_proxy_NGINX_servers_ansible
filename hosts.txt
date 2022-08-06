@@ -7,7 +7,7 @@
 
 webserver_1     ansible_host=3.71.206.57      webserver=WEB-SERVER-1    
 webserver_2     ansible_host=192.168.122.76
-#webserver_3     ansible_host=172-31-30-20
+webserver_3     ansible_host=172-31-30-20
 
 
 #[ALL_nginx:vars]
