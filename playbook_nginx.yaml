@@ -4,3 +4,9 @@
   become: yes
   roles:
     - nginx_Fedora
+    
+- hosts: nginx_proxy
+  become: yes
+  roles:
+    -nginx_proxy_Fedora
+
