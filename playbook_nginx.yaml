@@ -1,10 +1,6 @@
 ---
-- hosts: nginx_balansir
-  become: yes	 
-  roles:
-    - nginx_proxy_Fedora
      
 - hosts: nginx_web_server   
   become: yes
   roles:
-    - nginx_Fedora
+    - nginx_ubuntu
